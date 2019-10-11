@@ -1,6 +1,6 @@
 #!bin/bash
 
-#Rough sketch for building river centerlines. Rasters have been clipped prior
+#Rough sketch for building river centerlines from DEM using TauDEM. Rasters have been clipped prior
 
 BASEPATH=/dir/path/to/base
 
