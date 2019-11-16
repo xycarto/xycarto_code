@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 RUN apt-get -y update
 
-#build file for Tilemill on Ubuntu 18.04 Alpine
+#build file for Tilemill on Ubuntu 18.04
 
 # NEED:
 # Node.js: Ubuntu: v8.11.x
