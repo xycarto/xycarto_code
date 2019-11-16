@@ -1,6 +1,6 @@
 FROM ubuntu:18.04
 
-RUN apt-get update
+RUN apt-get -y update
 
 #build file for Tilemill on Ubuntu 18.04 Alpine
 
@@ -9,9 +9,9 @@ RUN apt-get update
 # Mapnik > v3.6.2 (but may work on earlier versions)
 
 # install nodejs 
-RUN apt-get install nodejs
+RUN apt-get install -y nodejs
 
-RUN apt-get install wget
+RUN apt-get install -y wget
 
 #install nvm for node version control
 RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.34.0/install.sh | bash
@@ -28,7 +28,7 @@ RUN nvm use 8.11.3
 
 #install for Mapnik
 
-RUN apt-get install software-properties-common
+RUN apt-get install -y software-properties-common
 
 # might have to update your outdated clang
 RUN add-apt-repository -y ppa:ubuntu-toolchain-r/test
@@ -38,11 +38,11 @@ RUN export CXX="clang++-3.9" && export CC="clang-3.9"
 
 # install mapnik
 RUN cd
-RUN apt install git
+RUN apt install -y git
 RUN git clone https://github.com/mapnik/mapnik mapnik --depth 10
 RUN cd mapnik
 RUN git submodule update --init
-RUN apt-get install python zlib1g-dev clang make pkg-config curl
+RUN apt-get install -y python zlib1g-dev clang make pkg-config curl
 RUN source bootstrap.sh
 RUN ./configure CUSTOM_CXXFLAGS="-D_GLIBCXX_USE_CXX11_ABI=0" CXX=${CXX} CC=${CC}
 RUN make
