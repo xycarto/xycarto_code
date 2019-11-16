@@ -1,5 +1,7 @@
 FROM alpine:3.7
 
+RUN apk update and apk add
+
 RUN apt-get update
 
 #build file for Tilemill on Ubuntu 18.04 Alpine
