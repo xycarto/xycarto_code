@@ -1,6 +1,4 @@
-FROM alpine:3.7
-
-RUN apk update and apk add
+FROM ubuntu:18.04
 
 RUN apt-get update
 

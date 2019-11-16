@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t tilemill:alpine .
+docker build -t tilemill:ubuntu18.04 .
