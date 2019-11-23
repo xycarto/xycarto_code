@@ -53,20 +53,10 @@ RUN apt-get update
 
 RUN apt-get install -y libgeos-dev python-lxml libgdal-dev python-shapely
 
-RUN apt-get install build-essential python-dev libjpeg-dev \
-  zlib1g-dev libfreetype6-dev
+RUN apt-get install -y build-essential python-dev libjpeg-dev zlib1g-dev libfreetype6-dev
 RUN pip install Pillow
 
 RUN pip install MapProxy
-
-# install gdal
-RUN apt-get install -y python3.6-dev
-
-RUN add-apt-repository ppa:ubuntugis/ppa && sudo apt-get update
-
-RUN apt-get update
-
-RUN apt-get install -y gdal-bin
 
 
 EXPOSE 8080
