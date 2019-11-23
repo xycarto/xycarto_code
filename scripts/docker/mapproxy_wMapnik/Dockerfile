@@ -49,6 +49,8 @@ RUN cd /mapnik && \
 
 RUN apt-get install -y python-pil python-yaml libproj12
 
+RUN apt-get update
+
 RUN apt-get install -y libgeos-dev python-lxml libgdal-dev python-shapely
 
 RUN apt-get install build-essential python-dev libjpeg-dev \
