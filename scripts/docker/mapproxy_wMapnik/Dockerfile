@@ -57,9 +57,9 @@ RUN apt-get install -y build-essential python-dev libjpeg-dev zlib1g-dev libfree
 
 RUN apt install -y python-pip
 
-RUN pip install -y Pillow
+RUN pip install Pillow
 
-RUN pip install -y MapProxy
+RUN pip install MapProxy
 
 
 EXPOSE 8080
