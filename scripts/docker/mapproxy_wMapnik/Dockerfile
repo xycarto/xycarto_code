@@ -54,9 +54,12 @@ RUN apt-get update
 RUN apt-get install -y libgeos-dev python-lxml libgdal-dev python-shapely
 
 RUN apt-get install -y build-essential python-dev libjpeg-dev zlib1g-dev libfreetype6-dev
-RUN pip install Pillow
 
-RUN pip install MapProxy
+RUN apt install -y python-pip
+
+RUN pip install -y Pillow
+
+RUN pip install -y MapProxy
 
 
 EXPOSE 8080
