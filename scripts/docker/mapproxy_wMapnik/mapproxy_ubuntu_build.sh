@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build -t mapproxy_mapnik:alpine .
+docker build -t mapproxy_mapnik:ubuntu .
