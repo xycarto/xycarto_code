@@ -1,7 +1,7 @@
 #!bin/bash
 
 # The purpose of this script is to process the Auckland 1m DEM and DSM elevation
-# data into more manageable pieces for easier viewing in QGIS...  
+# data into more manageable pieces for easier viewing in QGIS  
 # elevation tile downloads from LDS contain 6423 individual tiles. The
 # downloaded elevation tiles are reworked into tiffs the same size as the NZ
 # LINZ Topo50 Map Sheets 
