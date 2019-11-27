@@ -61,6 +61,15 @@ RUN pip install Pillow
 
 RUN pip install MapProxy
 
+#install mapnik python
+
+RUN git clone https://github.com/mapnik/python-mapnik.git
+WORKDIR python-mapnik
+RUN export BOOST_PYTHON_LIB=boost_python && \
+    export BOOST_SYSTEM_LIB=boost_system && \
+    export BOOST_THREAD_LIB=boost_thread && \
+    python setup.py install
+
 
 EXPOSE 8080
 
