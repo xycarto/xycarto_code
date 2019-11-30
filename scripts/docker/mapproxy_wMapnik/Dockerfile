@@ -49,3 +49,4 @@ RUN cd mapproxy && \
 RUN apt-get install -y python-shapely
 
 EXPOSE 8080
+EXPOSE 5482
