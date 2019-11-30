@@ -47,3 +47,5 @@ RUN cd mapproxy && \
   python setup.py install
 
 RUN apt-get install -y python-shapely
+
+EXPOSE 8080
