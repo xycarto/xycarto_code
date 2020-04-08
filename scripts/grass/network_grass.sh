@@ -5,16 +5,18 @@
 #follow pre-existing rivers drawn from aerial imagery.  Testing 
 #is first completed using LINZ 8m DEM and LINZ hydro lines 
 
+#TODO: Clean up script for more universal use
+
 #script for testing 
 
-inDir=/home/ireese/testing/hydrotesting
-outDir=/home/ireese/testing/hydrotesting/bj_test_GRASS/grasscollect
+inDir=~/testing/hydrotesting
+outDir=~/hydrotesting/bj_test_GRASS/grasscollect
 
 #rasters=$(find ${inDir}/raster -name '*.tif')
-rasters=/home/ireese/testing/hydrotesting/raster/BJ.tif
+rasters=~/testing/hydrotesting/raster/BJ.tif
 echo $rasters
 
-rivers_v_in=/home/ireese/testing/hydrotesting/shapes/clipped/rivers_BJ_oneatt.shp
+rivers_v_in=~/testing/hydrotesting/shapes/clipped/rivers_BJ_oneatt.shp
 rivers_v=bj_rivers
 
 #GRASS setup for hydrology
