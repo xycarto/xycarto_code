@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#testing for using saga gis to burn vectors into an elevation 
+#raster and create a rivers network.  The goal is to make rivers
+#follow pre-existing rivers drawn from aerial imagery.  Testing 
+#is first completed using LINZ 8m DEM and LINZ hydro lines 
+
 inDir=/home/ireese/testing/hydrotesting
 outDir=/home/ireese/testing/hydrotesting/bj_test
 
