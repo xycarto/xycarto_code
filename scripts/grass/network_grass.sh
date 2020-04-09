@@ -57,7 +57,7 @@ do
 
     #r.carve [-n] raster=name vector=name output=name [points=name] [width=float] [depth=float] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
     carve=${filename}_carve
-    r.carve -n raster=$filldem vector=$rivers_v output=$carve depth=1 --overwrite
+    r.carve -n raster=$filldem vector=$rivers_v output=$carve depth=2 width=10 --overwrite
 
     #r.terraflow [-s] elevation=name [filled=name] [direction=name] [swatershed=name] [accumulation=name] [tci=name] [d8cut=float] [memory=integer] [directory=string] [stats=string] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
     filled=${filename}_filled
@@ -89,7 +89,7 @@ do
     stream_vect=${filename}_stream_vect
     strahler=${filename}_strahler
     r.stream.order stream_rast=$stream direction=$drainage elevation=$hydrodem accumulation=$accumulation stream_vect=$stream_vect strahler=$strahler memory=3000 --overwrite
-    streamOut=${outDir}/${filename}_stream_vector_ii.gpkg
+    streamOut=${outDir}/${filename}_stream_vector_iii.gpkg
     v.out.ogr input=$stream_vect output=$streamOut format=GPKG --overwrite
 
     #r.stream.extract elevation=name [accumulation=name] [depression=name] threshold=float [d8cut=float] [mexp=float] [stream_length=integer] [memory=integer] [stream_raster=name] [stream_vector=name] [direction=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui]
