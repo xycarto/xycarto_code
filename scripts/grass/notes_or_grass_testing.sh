@@ -35,8 +35,12 @@ time grass /home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest/PERMANENT
 
 gdalwarp -s_srs EPSG:2193 -t_srs EPSG:2193 -of GTiff -tr 8.0 -8.0 -tap -cutline /store/nz_coast_outline/coastline_NZTM.shp  /home/ireese/testing/hydrotesting/raster/BJ.tif /home/ireese/testing/hydrotesting/raster/BJ_coastClip.tif
 
-ainput=BJ_coastClip_basinVect_500000
-binput=BJ_coastClip_basinVect_1000000
+ainput=BJ_coastClip_basinVect_250000
+binput=BJ_coastClip_basinVect_500000
 v.select [-tcr] ainput=name [alayer=string] [atype=string[,string,...]] binput=name [blayer=string] [btype=string[,string,...]] output=name operator=string [relate=string] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-v.select ainput=$ainput atype=area binput=$binput btype=area output=notouch operator=within --overwrite
-v.out.ogr input=notouch output=/home/ireese/testing/hydrotesting/bj_test_GRASS/grasscollect/notouch.shp type=area format=ESRI_Shapefile --overwrite
+v.select ainput=$ainput atype=area binput=$binput btype=area output=notouch_b operator=within --overwrite
+v.out.ogr input=notouch_b output=/home/ireese/testing/hydrotesting/bj_test_GRASS/grasscollect/notouch_b.shp type=area format=ESRI_Shapefile --overwrite
+
+v.overlay [-t] ainput=name [alayer=string] [atype=string[,string,...]] binput=name [blayer=string] [btype=string[,string,...]] operator=string output=name [olayer=string[,string,...]] [snap=float] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
+
+v.overlay ainput=$ainput atype=area binput=$binput btype=area output=notouch_b operator=not --overwrite
