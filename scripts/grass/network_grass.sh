@@ -10,14 +10,14 @@
 #script for testing 
 
 inDir=/home/ireese/testing/hydrotesting
-outDir=/home/ireese/hydrotesting/bj_test_GRASS/grasscollect
+outDir=/home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest
 
 #rasters=$(find ${inDir}/raster -name '*.tif')
-rasters=/home/ireese/testing/hydrotesting/raster/BJ.tif
+rasters=/home/ireese/testing/hydrotesting/raster/BJ_clippedBY12_watershed.tif
 echo $rasters
 
-rivers_v_in=/home/ireese/testing/hydrotesting/shapes/clipped/rivers_BJ_oneatt.shp
-rivers_v=bj_rivers
+rivers_v_in=/home/ireese/testing/hydrotesting/shapes/clipped/bj_rivers_clippedToWatershed.shp
+rivers_v=bj_rivers_clipped
 
 #GRASS setup for hydrology
 
