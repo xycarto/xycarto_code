@@ -32,3 +32,11 @@ grass -c epsg:2193 /home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest/P
 grass /home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest/PERMANENT 
 
 time grass /home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest/PERMANENT --exec sh /home/ireese/xycarto_code/scripts/grass/network_grass.sh
+
+gdalwarp -s_srs EPSG:2193 -t_srs EPSG:2193 -of GTiff -tr 8.0 -8.0 -tap -cutline /store/nz_coast_outline/coastline_NZTM.shp  /home/ireese/testing/hydrotesting/raster/BJ.tif /home/ireese/testing/hydrotesting/raster/BJ_coastClip.tif
+
+ainput=BJ_coastClip_basinVect_500000
+binput=BJ_coastClip_basinVect_1000000
+v.select [-tcr] ainput=name [alayer=string] [atype=string[,string,...]] binput=name [blayer=string] [btype=string[,string,...]] output=name operator=string [relate=string] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
+v.select ainput=$ainput atype=area binput=$binput btype=area output=notouch operator=disjoint
+v.out.ogr input=notouch output=/home/ireese/testing/hydrotesting/bj_test_GRASS/grasscollect/notouch.shp type=area format=ESRI_Shapefile --overwrite
