@@ -51,3 +51,5 @@ v.overlay [-t] ainput=name [alayer=string] [atype=string[,string,...]] binput=na
 v.overlay ainput=$ainput atype=area binput=$binput btype=area output=notouch_b operator=not --overwrite
 
 v.build -e map=BJ127_stream_vect
+
+ogr2ogr -f "ESRI Shapefile" /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -dialect sqlite -sql "select id, ST_buffer(Geometry,0) as geom from merged"

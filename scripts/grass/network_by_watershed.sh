@@ -9,7 +9,7 @@ outFinal=/home/ireese/testing/hydrotesting/bj_test_GRASS/final
 
 baseName=$(basename $inTiff | sed 's/\.tif//')
 
-cutLine=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp
+cutLine=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp
 
 layerName=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp
 idList=$( ogrinfo -geom=NO -q -sql "SELECT id FROM merged" $layerName | grep 'id (Integer)' | sed s/'id (Integer) =//' )
@@ -23,12 +23,12 @@ do
     #GDAL clip rivers by watershed
     echo "GDAL clip rivers by watershed"
     outRiverClipped=$outDir/${fileName}_id_${i}_clipRiver.shp
-    ogr2ogr -clipsrc $cutLine -clipsrcsql "SELECT * FROM merged where id=${i}" $outRiverClipped $inRiver 
+    ogr2ogr -clipsrc $cutLine -clipsrcsql "SELECT * FROM mergedBuff where id=${i}" $outRiverClipped $inRiver 
 
     #GDAL clip DEM by watershed
     echo "GDAL clip DEM by watershed"
     outTiffClipped=$outDir/${fileName}_id_${i}.tif
-    gdalwarp -of GTiff -cutline $cutLine -csql "SELECT * FROM merged where id=${i}" -crop_to_cutline -tr 8.0 -8.0 $inTiff $outTiffClipped
+    gdalwarp -of GTiff -cutline $cutLine -csql "SELECT * FROM mergedBuff where id=${i}" -crop_to_cutline -tr 8.0 -8.0 $inTiff $outTiffClipped
 
     #import vector rivers
     echo "import vector rivers"
@@ -109,5 +109,5 @@ inputList=$(echo $mergeList | sed "s/ /,/g")
 #v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
 v.patch input=$inputList output=merged_vector --overwrite
 
-v.out.ogr input=merged output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.gpkg type=line format=GPKG --overwrite
+v.out.ogr input=merged_vector output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged_rivers.gpkg type=line format=GPKG --overwrite
 
