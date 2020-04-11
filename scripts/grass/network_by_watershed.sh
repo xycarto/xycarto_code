@@ -34,7 +34,7 @@ do
     echo "import vector rivers"
     #v.import [-flo] input=string [layer=string[,string,...]] [output=name] [extent=string] [encoding=string] [snap=float] [epsg=integer] [datum_trans=integer] [--overwrite] [--help] [--verbose] [--quiet] [--ui]
     outRiversVect=${fileName}_riverVect
-    v.in.ogr input=$outRiverClipped output=$outRiversVect --overwrite
+    v.in.ogr input=$outRiverClipped output=$outRiversVect type=line --overwrite
 
     #import raster watershed
     echo "import raster watershed"
@@ -91,9 +91,23 @@ do
     strahler=${fileName}_strahler
     r.stream.order stream_rast=$stream direction=$drainage elevation=$hydrodem accumulation=$accumulation stream_vect=$stream_vect strahler=$strahler memory=3000 --overwrite
 
+    #fix geometries
+    #v.build [-e] map=name [error=name] option=string[,string,...] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
+    v.build -e map=$stream_vect
+
     #export stream vector
     echo "export stream order"
     streamOut=${outFinal}/${fileName}_stream_vector_iii.gpkg
     v.out.ogr input=$stream_vect output=$streamOut type=line format=GPKG --overwrite
+
 done
+
+mergeList=$(g.list type=vector pattern=*_stream_vect)
+
+inputList=$(echo $mergeList | sed "s/ /,/g")
+
+#v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
+v.patch input=$inputList output=merged_vector --overwrite
+
+v.out.ogr input=merged output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.gpkg type=line format=GPKG --overwrite
 
