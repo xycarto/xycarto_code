@@ -18,15 +18,31 @@ do
     fileName=${binput}_overlay
     shpOut=$outDir/$fileName.shp
 
+    echo $ainput
+    echo $binput
+    echo $fileName
+    echo $shpOut
+
     #v.overlay [-t] ainput=name [alayer=string] [atype=string[,string,...]] binput=name [blayer=string] [btype=string[,string,...]] operator=string output=name [olayer=string[,string,...]] [snap=float] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
 
     v.overlay ainput=$ainput atype=area binput=$binput btype=area output=$fileName operator=not --overwrite
 
     v.out.ogr input=$fileName output=$shpOut type=area format=ESRI_Shapefile --overwrite
 
-    $binput=$i
-    
+    initVect=$i
+
 done
 
+mergeList=$(g.list type=vector pattern=*_overlay)
+
+inputList=$(echo $mergeList | sed "s/ /,/g")
+
+#v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
+v.patch input=$inputList,BJ_coastClip_basinVect_1000000 output=merged --overwrite
+
+v.out.ogr input=merged output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp type=area format=ESRI_Shapefile --overwrite
+
+ogrinfo /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -sql "ALTER TABLE merged ADD COLUMN id integer" 
+ogrinfo /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -dialect SQLite -sql "UPDATE merged set id = rowid+1"
 
 
