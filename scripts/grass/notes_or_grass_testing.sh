@@ -33,6 +33,9 @@ grass /home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest/PERMANENT
 
 time grass /home/ireese/testing/hydrotesting/bj_test_GRASS/clippedtest/PERMANENT --exec sh /home/ireese/xycarto_code/scripts/grass/network_grass.sh
 
+
+time grass /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/PERMANENT /home/ireese/xycarto_code/scripts/grass/build_watersheds_grass.sh
+
 gdalwarp -s_srs EPSG:2193 -t_srs EPSG:2193 -of GTiff -tr 8.0 -8.0 -tap -cutline /store/nz_coast_outline/coastline_NZTM.shp  /home/ireese/testing/hydrotesting/raster/BJ.tif /home/ireese/testing/hydrotesting/raster/BJ_coastClip.tif
 
 ainput=BJ_coastClip_basinVect_250000
