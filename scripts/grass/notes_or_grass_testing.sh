@@ -53,3 +53,12 @@ v.overlay ainput=$ainput atype=area binput=$binput btype=area output=notouch_b o
 v.build -e map=BJ127_stream_vect
 
 ogr2ogr -f "ESRI Shapefile" /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -dialect sqlite -sql "select id, ST_buffer(Geometry,0) as geom from merged"
+
+mergeList=$(g.list type=vector pattern=*_stream_vect exclude=BJ221_stream_vect,BJ127_stream_vect)
+
+for i in $mergeList; 
+do 
+    echo $i;
+    v.db.dropcolumn map=$i columns=prev_str01,prev_str02,prev_str03,prev_str04;
+    db.describe -c table=$i; 
+done

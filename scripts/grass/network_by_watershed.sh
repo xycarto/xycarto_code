@@ -102,12 +102,12 @@ do
 
 done
 
-mergeList=$(g.list type=vector pattern=*_stream_vect)
+mergeList=$(g.list type=vector pattern=*_stream_vect separator=comma exclude=BJ221_stream_vect,BJ127_stream_vect)
 
-inputList=$(echo $mergeList | sed "s/ /,/g")
+#inputList=$(echo $mergeList | sed "s/ /,/g")
 
 #v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-v.patch input=$inputList output=merged_vector --overwrite
+v.patch -e input=$mergeList output=merged_vector --overwrite
 
 v.out.ogr input=merged_vector output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged_rivers.gpkg type=line format=GPKG --overwrite
 
