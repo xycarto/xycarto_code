@@ -62,3 +62,21 @@ do
     v.db.dropcolumn map=$i columns=prev_str01,prev_str02,prev_str03,prev_str04;
     db.describe -c table=$i; 
 done
+
+echo "/home/ireese/testing/hydrotesting/raster/BI.tif /home/ireese/testing/hydrotesting/raster/BJ.tif" > /home/ireese/testing/hydrotesting/raster/list.txt
+
+list=$(echo "/home/ireese/testing/hydrotesting/raster/BI.tif /home/ireese/testing/hydrotesting/raster/BJ.tif")
+
+gdalbuildvrt /home/ireese/testing/hydrotesting/raster/test.vrt -input_file_list /home/ireese/testing/hydrotesting/raster/list.txt -overwrite
+
+gdal_translate /home/ireese/testing/hydrotesting/raster/test.vrt /home/ireese/testing/hydrotesting/raster/demMerge.tif
+
+gdalwarp -s_srs EPSG:2193 -t_srs EPSG:2193 -of GTiff -tr 8.0 -8.0 -cutline /store/nz_coast_outline/coastline_NZTM.shp  -/home/ireese/testing/hydrotesting/raster/test.vrt /home/ireese/testing/hydrotesting/raster/demMerge_cut.tif
+
+NAME="North Island or Te Ika-a-Māui"
+
+gdalwarp -of GTiff -cutline /store/nz_coast_outline/coastline_NZTM.shp -csql "SELECT * FROM coastline_NZTM where NAME='North Island or Te Ika-a-Māui'" /home/ireese/testing/hydrotesting/raster/test.vrt /home/ireese/testing/hydrotesting/raster/demClipped_at_coast.tif
+
+demClipped_at_coast
+
+r.hydrodem input=demClipped_at_coast memory=3000 output=demClipped_at_coast_hydrodem mod=4 size=4 --overwrite
