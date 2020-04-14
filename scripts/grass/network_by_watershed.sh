@@ -2,17 +2,17 @@
 
 #network by watershed
 
-inTiff=/home/ireese/testing/hydrotesting/raster/BJ.tif
-inRiver=/home/ireese/testing/hydrotesting/shapes/clipped/rivers_BJ.shp
-outDir=/home/ireese/testing/hydrotesting/raster/wshedClip
+inTiff=/home/ireese/testing/hydrotesting/raster/demClipped_at_coast.tif
+inRiver=/home/ireese/testing/hydrotesting/shapes/river_pilot.shp
+outDir=/home/ireese/testing/hydrotesting/bj_test_GRASS/largetest/temphold
 outFinal=/home/ireese/testing/hydrotesting/bj_test_GRASS/final
 
 baseName=$(basename $inTiff | sed 's/\.tif//')
 
-cutLine=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp
+cutLine=/home/ireese/testing/hydrotesting/bj_test_GRASS/largetest/mergedBuff.shp
 
-layerName=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp
-idList=$( ogrinfo -geom=NO -q -sql "SELECT id FROM merged" $layerName | grep 'id (Integer)' | sed s/'id (Integer) =//' )
+layerName=/home/ireese/testing/hydrotesting/bj_test_GRASS/largetest/mergedBuff.shp
+idList=$( ogrinfo -geom=NO -q -sql "SELECT id FROM mergedBuff" $layerName | grep 'id (Integer)' | sed s/'id (Integer) =//' )
 
 for i in $idList
 do
@@ -102,12 +102,12 @@ do
 
 done
 
-mergeList=$(g.list type=vector pattern=*_stream_vect separator=comma exclude=BJ221_stream_vect,BJ127_stream_vect)
+##mergeList=$(g.list type=vector pattern=*_stream_vect separator=comma)
 
 #inputList=$(echo $mergeList | sed "s/ /,/g")
 
 #v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-v.patch -e input=$mergeList output=merged_vector --overwrite
+##v.patch -e input=$mergeList output=merged_vector --overwrite
 
-v.out.ogr input=merged_vector output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged_rivers.gpkg type=line format=GPKG --overwrite
+##v.out.ogr input=merged_vector output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged_rivers.gpkg type=line format=GPKG --overwrite
 
