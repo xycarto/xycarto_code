@@ -11,7 +11,7 @@ baseName=$(basename $inTiff | sed 's/\.tif//')
 
 cutLine=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp
 
-layerName=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp
+layerName=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp
 idList=$( ogrinfo -geom=NO -q -sql "SELECT id FROM merged" $layerName | grep 'id (Integer)' | sed s/'id (Integer) =//' )
 
 for i in $idList

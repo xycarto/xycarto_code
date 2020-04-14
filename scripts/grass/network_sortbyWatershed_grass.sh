@@ -25,7 +25,7 @@ do
     r.in.gdal --overwrite input=$i output=$fileName
     g.region rast=$fileName -p
     #outfile=${outDir}/${filename}_original.tif
-    #r.out.gdal input=$filename output=$outfile format=GTiff type=Float32 --overwrite
+    ##r.out.gdal input=$filename output=$outfile format=GTiff type=Float32 --overwrite
     
     #r.info [-grseh] map=name [--help] [--verbose] [--quiet] [--ui] 
     r.info map=$fileName
@@ -41,7 +41,7 @@ do
     echo "create hydro corrected dem"
     #r.hydrodem [-afc] input=name [depression=name] [memory=integer] output=name mod=integer size=integer [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
     hydrodem=${fileName}_hydrodem
-    #r.hydrodem input=$fileName memory=3000 output=$hydrodem mod=4 size=4 --overwrite
+    ##r.hydrodem input=$fileName memory=3000 output=$hydrodem mod=4 size=4 --overwrite
 
     r.info map=$hydrodem
 
@@ -52,24 +52,26 @@ do
         echo "Running raster watershed"
         #r.watershed [-s4mab] elevation=name [depression=name] [flow=name] [disturbed_land=name] [blocking=name] [retention=name] [threshold=integer] [max_slope_length=float] [accumulation=name] [tci=name] [spi=name] [drainage=name] [basin=name] [stream=name] [half_basin=name] [length_slope=name] [slope_steepness=name] [convergence=integer] [memory=integer] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
         threshold=$w
-        accumulation=${fileName}_accumulation
-        drainage=${fileName}_drainage
-        stream=${fileName}_stream
+        accumulation=${fileName}_accumulation_${threshold}
+        drainage=${fileName}_drainage_${threshold}
+        stream=${fileName}_stream_${threshold}
         basin=${fileName}_basin_${threshold}
         #run watershed command
         #r.watershed elevation=$hydrodem threshold=$threshold accumulation=$accumulation drainage=$drainage stream=$stream basin=$basin  memory=3000 --overwrite
-        r.watershed elevation=$hydrodem threshold=$threshold accumulation=$accumulation drainage=$drainage stream=$stream basin=$basin memory=3000 --overwrite
+        ##r.watershed elevation=$hydrodem threshold=$threshold accumulation=$accumulation drainage=$drainage stream=$stream basin=$basin memory=3000 --overwrite
         #export watershed outputs
         basinOut=${outDir}/${fileName}_basin_${threshold}.tif
-        r.out.gdal input=$basin output=$basinOut format=GTiff type=Float32 --overwrite
+        ##r.out.gdal input=$basin output=$basinOut format=GTiff type=Float32 --overwrite
+
+        echo $basin >> ${outDir}/watershedList.txt
 
         echo "Running basin raster to vector"
         #r.to.vect [-svzbt] input=name output=name type=string [column=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-        basinVect=${fileName}_basinVect_${threshold}
+        ##basinVect=${fileName}_basinVect_${threshold}
         #vectorize basin raster
-        r.to.vect input=$basin output=$basinVect type=area column=bnum --overwrite
+        ##r.to.vect input=$basin output=$basinVect type=area column=bnum --overwrite
         #export basin vector
-        basinVectOut=${outDir}/${fileName}_basinVectOut_${threshold}.shp
-        v.out.ogr input=$basinVect output=$basinVectOut type=area format=ESRI_Shapefile --overwrite
+        ##basinVectOut=${outDir}/${fileName}_basinVectOut_${threshold}.shp
+        ##v.out.ogr input=$basinVect output=$basinVectOut type=area format=ESRI_Shapefile --overwrite
     done
 done

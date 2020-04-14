@@ -80,3 +80,5 @@ gdalwarp -of GTiff -cutline /store/nz_coast_outline/coastline_NZTM.shp -csql "SE
 demClipped_at_coast
 
 r.hydrodem input=demClipped_at_coast memory=3000 output=demClipped_at_coast_hydrodem mod=4 size=4 --overwrite
+
+time grass /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/PERMANENT --exec sh /home/ireese/xycarto_code/scripts/grass/build_watersheds_grass.sh

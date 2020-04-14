@@ -2,13 +2,14 @@
 
 #develop watersheds
 
-outDir=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP
+outDir=/home/ireese/testing/hydrotesting/bj_test_GRASS/largetest
 
-list=$( echo BJ_coastClip_basinVect_500000 BJ_coastClip_basinVect_250000 BJ_coastClip_basinVect_100000 BJ_coastClip_basinVect_50000 BJ_coastClip_basinVect_25000 BJ_coastClip_basinVect_5000)
+list=$( echo demClipped_at_coast_basinVect_7500000 demClipped_at_coast_basinVect_5000000 demClipped_at_coast_basinVect_2500000 demClipped_at_coast_basinVect_1000000 demClipped_at_coast_basinVect_500000 demClipped_at_coast_basinVect_250000 demClipped_at_coast_basinVect_10000)
+#list=$(cat ${outDir}/watershedList.txt)
 
 echo $list
 
-initVect=BJ_coastClip_basinVect_1000000
+initVect=demClipped_at_coast_basinVect_10000000
 
 for i in $list
 do
@@ -33,23 +34,23 @@ do
 
 done
 
-mergeList=$(g.list type=vector pattern=*_overlay)
+mergeList=$(g.list type=vector pattern=demClipped_at_coast*_overlay)
 
 inputList=$(echo $mergeList | sed "s/ /,/g")
 
 echo "running patch"
 #v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-v.patch input=$inputList,BJ_coastClip_basinVect_1000000 output=merged --overwrite
+v.patch input=$inputList,demClipped_at_coast_basinVect_10000000 output=merged --overwrite
 
-v.out.ogr input=merged output=/home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp type=area format=ESRI_Shapefile --overwrite
+v.out.ogr input=merged output=${outDir}/merged.shp type=area format=ESRI_Shapefile --overwrite
 
 #add id column
 echo "add id column and populate"
-ogrinfo /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -sql "ALTER TABLE merged ADD COLUMN id integer" 
-ogrinfo /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -dialect SQLite -sql "UPDATE merged set id = rowid+1"
+ogrinfo ${outDir}/merged.shp -sql "ALTER TABLE merged ADD COLUMN id integer" 
+ogrinfo ${outDir}/merged.shp -dialect SQLite -sql "UPDATE merged set id = rowid+1"
 
 #clean up geometries
 echo "running buffer"
-ogr2ogr -f "ESRI Shapefile" /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/mergedBuff.shp /home/ireese/testing/hydrotesting/bj_test_GRASS/TEMP/merged.shp -dialect sqlite -sql "select id, ST_buffer(Geometry,0) as geom from merged"
+ogr2ogr -f "ESRI Shapefile" ${outDir}/mergedBuff.shp ${outDir}/merged.shp -dialect sqlite -sql "select id, ST_buffer(Geometry,0) as geom from merged"
 
 
