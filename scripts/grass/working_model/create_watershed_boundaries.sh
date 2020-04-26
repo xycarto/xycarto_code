@@ -2,9 +2,11 @@
 
 #create watershed boundaries 
 
-inDir=/home/ireese/testing/hydrotesting
-outDirRast=${inDir}/raster/raster_processed_grass
-outDirVect=${inDir}/shapes/vector_watersheds
+inDir=/home/ireese/testing/wellington_hydro
+#outDirRast=${inDir}/raster/raster_processed_grass
+outDirVect=${inDir}/vectorCatchments
+
+memory=5000
 
 #rasters=$(find ${inDir}/raster -name '*.tif')
 #accept raster from imput stream
@@ -17,7 +19,7 @@ echo "Filename: $fileName"
 #import raster elevation
 echo "Running raster import"
 #r.in.gdal [-ojeflakcrp] input=name output=name [band=integer[,integer,...]] [memory=integer] [target=name] [title=phrase] [offset=integer] [num_digits=integer] [map_names_file=name] [location=name] [table=file] [gdal_config=string] [gdal_doo=string] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-r.in.gdal --overwrite input=$rasters output=${fileName}
+r.in.gdal --overwrite memory=$memory input=$rasters output=${fileName}
 echo "set workspace region"
 g.region rast=${fileName} -p
     
@@ -30,14 +32,14 @@ r.info map=${fileName}
 echo "create hydro corrected dem"
 #r.hydrodem [-afc] input=name [depression=name] [memory=integer] output=name mod=integer size=integer [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
 hydrodem=${fileName}_hydrodem
-r.hydrodem input=$fileName memory=3000 output=$hydrodem mod=4 size=4 --overwrite
+r.hydrodem input=$fileName memory=$memory output=$hydrodem mod=4 size=4 --overwrite
 
 echo "hydrodem info"
 r.info map=$hydrodem
 
 #set watershed sizes
 #order is important
-watershedSteps=$(echo 3000000 1000000 750000 500000 250000 100000 50000 25000 10000)
+watershedSteps=$(echo 2000000 1000000 750000 500000 250000 100000 50000 25000 10000 5000 2500)
 
 for w in $watershedSteps
 do
@@ -49,7 +51,7 @@ do
     stream=${fileName}_stream_${threshold}
     basin=${fileName}_basin_${threshold}
     #run watershed command
-    r.watershed elevation=$hydrodem threshold=$threshold accumulation=$accumulation drainage=$drainage stream=$stream basin=$basin memory=4000 --overwrite
+    r.watershed elevation=$hydrodem threshold=$threshold accumulation=$accumulation drainage=$drainage stream=$stream basin=$basin memory=$memory --overwrite
 
     #basin raster to vector
     echo "Running basin raster to vector"
