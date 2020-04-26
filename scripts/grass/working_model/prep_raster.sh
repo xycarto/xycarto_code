@@ -1,9 +1,11 @@
 #!/bin/bash
 
-inRast=/home/ireese/testing/hydrotesting/raster/raster_raw
-outRast=/home/ireese/testing/hydrotesting/raster/raster_processed_gdal
+inDir=
 
-coastline=/home/ireese/testing/hydrotesting/shapes/vector_raw/coastline_NZTM.shp
+inRast=${inDir}/raster/raster_raw
+outRast=${inDir}/raster/raster_processed_gdal
+
+coastline=${inDir}/vector/coastline_NZTM.shp
 
 rasterList=$(find $inRast -name '*.tif')
 
