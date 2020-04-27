@@ -3,19 +3,25 @@
 #UNFINISHED
 
 #set input environment
-inDir=$1
-outDir=
 
+#merged watershed vector 
+watershed=$1
+#input DEM at original resolution
 inRast=$2
-outRast=$3
+#output location for clipped DEM
+outDir=$3
 
-watershed=${outDir}/mergedWatershed_buff.shp
+watershedLayerName=$(basename $watershed | sed 's/.shp//')
+watershedList=$(ogrinfo $watershed )
 
-watershedList=$(ogrinfo )
+getBaseName=$(basename $inRast | sed 's/.tif//')
 
 #clip raster by watershed
 for i in $watershedList
 do
-    gdalwarp
+    fileName=${getBaseName}_${i}
+    gdalwarp -of GTiff -dstnodata -9999 -cutline $watershed -csql "SELECT * FROM $watershedLayerName where id='$i'" -clip_to_cutline $inRast $outDir/{fileName}.tif
 done
+
+
 

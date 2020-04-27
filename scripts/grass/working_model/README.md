@@ -45,6 +45,7 @@ mkdir ${inDir}/TEMP
 
 inRast=${inDir}/raster/raster_raw
 outRast=${inDir}/raster/raster_processed_gdal
+outWatersheds=${outRast}/indivWatershed
 
 vectWatershed=${inDir}/vector/watersheds
 vectRivers=${inDir}/vector/riversProcessed
@@ -81,7 +82,7 @@ time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/develop_merged_wate
 
 ### clip original raster mosaic by watershed boundaries
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh 
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${outDir}/mergedWatershed_buff.shp ${outRast}/rast_50.tif ${outWatersheds}
 
 ### Run river creation process
 
