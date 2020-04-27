@@ -31,26 +31,37 @@ PostgreSQL
 inDir=
 
 mkdir ${inDir}/scripts
-scrpits=${inDir}/scripts
 
 mkdir ${inDir}/raster
+
 mkdir ${inDir}/raster/rawData
+
 mkdir ${inDir}/raster/processedData
+
 mkdir ${inDir}/raster/processedData/indivWatershed
 
+
 mkdir ${inDir}/vector
+
 mkdir ${inDir}/vector/rawData
+
 mkdir ${inDir}/vector/watersheds
+
 mkdir ${inDir}/vector/riversProcessed
 
 mkdir ${inDir}/TEMP
 
 inRast=${inDir}/raster/raster_raw
+
 outRast=${inDir}/raster/raster_processed_gdal
+
 outWatersheds=${outRast}/indivWatershed
 
 vectWatershed=${inDir}/vector/watersheds
+
 vectRivers=${inDir}/vector/riversProcessed
+
+scrpits=${inDir}/scripts
 
 ### download LINZ data
 
