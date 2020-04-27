@@ -56,13 +56,13 @@ inRast=${inDir}/raster/raster_raw
 
 outRast=${inDir}/raster/raster_processed_gdal
 
-outWatersheds=${outRast}/indivWatershed
+rastWatersheds=${outRast}/indivWatershed
 
 vectWatershed=${inDir}/vector/watersheds
 
 vectRivers=${inDir}/vector/riversProcessed
 
-scrpits=${inDir}/scripts
+scripts=${inDir}/scripts
 
 ### download LINZ data
 
@@ -84,23 +84,23 @@ grass ${inDir}/GRASS_ENV/PERMANENT
 ### clip raster data by coastline
 ### downsample raster for watershed creation
 
-time bash -v ${scrpits}/prep_raster.sh ${inDir} ${inRast} ${outRast}
+time bash -v ${scripts}/prep_raster.sh ${inDir} ${inRast} ${outRast}
 
 ### create watershed from downsampled raster
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/create_watershed_boundaries.sh ${inDir} ${vectWatershed} ${outRast}/rast_50.tif
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/create_watershed_boundaries.sh ${inDir} ${vectWatershed} ${outRast}/rast_50.tif
 
 ### merge vectors into one clean watershed
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/develop_merged_watershed.sh ${vectWatershed}
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/develop_merged_watershed.sh ${vectWatershed}
 
 ### clip original raster mosaic by watershed boundaries
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${outDir}/mergedWatershed_buff.shp ${outRast}/rast_50.tif ${outWatersheds}
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/clip_raster_by_watershed.sh ${vectWatershed}/mergedWatershed_buff.shp ${outRast}/rast_50.tif ${rastWatersheds}
 
 ### Run river creation process
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/scripts/network_by_watershed_noClip.sh
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/scripts/network_by_watershed_noClip.sh
 
 	
 
