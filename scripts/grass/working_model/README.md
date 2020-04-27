@@ -15,6 +15,8 @@ Basic steps
 
 Note: for large watersheds it may be necesary to slightly downsample the clipped DEM watersheds in order to process.  Testing so far reveals that watersheds >2.5GB are difficult to process in a reasonable amount of time. 
 
+Note: method trys to determine location where rivers may cross barriers like roads and create an outlet for continuous drainage.  
+
 ### Requirements
 
 GRASSGIS >= 7.4
