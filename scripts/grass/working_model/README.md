@@ -83,7 +83,6 @@ grass -c epsg:2193 -e ${inDir}/GRASS_ENV
 
 grass ${inDir}/GRASS_ENV/PERMANENT
 
-### clip raster data by coastline
 ### downsample raster for watershed creation
 
 time bash -v ${scripts}/prep_raster.sh ${inDir} ${inRast} ${outRast}
