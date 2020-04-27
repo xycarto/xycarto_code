@@ -85,8 +85,6 @@ time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh
 
 ### Run river creation process
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/network_by_watershed.sh
-
 time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/scripts/network_by_watershed_noClip.sh
 
 	
