@@ -51,6 +51,7 @@ mkdir ${inDir}/vector/riversProcessed
 
 mkdir ${inDir}/TEMP
 
+
 inRast=${inDir}/raster/raster_raw
 
 outRast=${inDir}/raster/raster_processed_gdal
