@@ -2,15 +2,14 @@
 
 #create watershed boundaries 
 
-inDir=/home/ireese/testing/wellington_hydro
-#outDirRast=${inDir}/raster/raster_processed_grass
-outDirVect=${inDir}/vectorCatchments
+inDir=$1
+outDirVect=$2
 
+#set memory size for processing
 memory=5000
 
-#rasters=$(find ${inDir}/raster -name '*.tif')
-#accept raster from imput stream
-rasters=$1
+#accept raster from input command
+rasters=$3
 echo $rasters
 
 fileName=$(basename $rasters | sed 's/\.tif//')
@@ -39,6 +38,8 @@ r.info map=$hydrodem
 
 #set watershed sizes
 #order is important
+#need to test various sizes to find optimal watershed size. Idea is to find largest possible watershed that drians to the coast
+#and work down from this value
 watershedSteps=$(echo 2000000 1000000 750000 500000 250000 100000 50000 25000 10000 5000 2500)
 
 for w in $watershedSteps

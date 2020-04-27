@@ -2,12 +2,10 @@
 
 #develop watersheds
 
-outDir=/home/ireese/testing/hydrotesting/shapes/vector_watersheds
+outDir=$1
 
-watershedList=$1
-#watershedList=/home/ireese/testing/hydrotesting/shapes/vector_watersheds/watershedList.txt
+watershedList=${outDir}/watershedList.txt
 
-#list=$( echo demClipped_at_coast_basinVect_7500000 demClipped_at_coast_basinVect_5000000 demClipped_at_coast_basinVect_2500000 demClipped_at_coast_basinVect_1000000 demClipped_at_coast_basinVect_500000 demClipped_at_coast_basinVect_250000 demClipped_at_coast_basinVect_10000)
 initVect=$(head -1 $watershedList)
 initVectForMerge=$(head -1 $watershedList) #need for later patch
 list=$(cat $watershedList | grep -v $initVect)

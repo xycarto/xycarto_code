@@ -1,10 +1,10 @@
 #!/bin/bash
 
 #set input environment
-inDir=
+inDir=$1
 
-inRast=${inDir}/raster/raster_raw
-outRast=${inDir}/raster/raster_processed_gdal
+inRast=$2
+outRast=$3
 
 coastline=${inDir}/vector/coastline_NZTM.shp
 
