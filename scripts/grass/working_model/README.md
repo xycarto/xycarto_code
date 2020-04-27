@@ -1,3 +1,20 @@
+### Intro
+
+Process to develop stream order from Wellington 1m DEM.
+
+The goal is to develop a collection of DEMs clipped at watershed boundariee, where the watershed boundaries used for processing are those only draining to the coast.
+
+Basic steps
+
+1. Mosaic DEM
+2. Downsample mosic to for watershed creation
+3. Create watersheds
+4. Merge watersheds into single file, representing only those watershed that drian to the coast.
+5. Clip original resolution mosic by watershed boundaries
+6. Create stream order from clipped DEM
+
+Note: for large watersheds it may be necesary to slightly downsample the clipped DEM watersheds in order to process.  Testing so far reveals that watersheds >2.5GB are difficult to process in a reasonable amount of time. 
+
 ### Requirements
 
 GRASSGIS >= 7.4
@@ -59,6 +76,7 @@ time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/create_watershed_bo
 time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/develop_merged_watershed.sh ${vectWatershed}
 
 ### clip original raster mosaic by watershed boundaries
+
 
 
 ### Run river creation process
