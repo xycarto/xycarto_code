@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#set input environment
 inDir=
 
 inRast=${inDir}/raster/raster_raw
@@ -9,21 +10,25 @@ coastline=${inDir}/vector/coastline_NZTM.shp
 
 rasterList=$(find $inRast -name '*.tif')
 
+#clean overviews
 for i in $rasterList
 do
     gdaladdo -clean $i
 done
 
-cd $inRast
+#clip coastline from rasters
+#process by number of processors for speed
+cd ${inRast}
+numP=$(nproc)
+find -name '*.tif' | sed 's/.\///g' | xargs -n${numP} -P ${numP} -t -I % gdalwarp -of GTiff -dstnodata -9999 -cutline $coastline -csql "SELECT * FROM coastline_NZTM where NAME='North Island or Te Ika-a-Māui'" % ${outDir}/%
 
+cd ${outRast}
 gdalbuildvrt rast.vrt *.tif
 
 cd
 
-gdalwarp -of GTiff -cutline $coastline -csql "SELECT * FROM coastline_NZTM where NAME='North Island or Te Ika-a-Māui'" -multi -wo NUM_THREADS=ALL_CPUS  $inRast/rast.vrt $outRast/warpCut_original.tif
+#original resolution raster merge
+gdal_translate ${outRast}/rast.vrt ${outRast}/rast.tif
 
-gdalwarp -of GTiff -tr 20 -20 -cutline $coastline -csql "SELECT * FROM coastline_NZTM where NAME='North Island or Te Ika-a-Māui'" -multi -wo NUM_THREADS=ALL_CPUS $inRast/rast.vrt $outRast/warpCut_20.tif
-
-gdalwarp -of GTiff -dstnodata -9999 -cutline /home/ireese/testing/wellington_hydro/vectorCatchments/dem_orig_25_clipped_basinVectOut_2000000.gpkg -crop_to_cutline -multi -wo NUM_THREADS=ALL_CPUS /home/ireese/testing/wellington_hydro/dem_orig.tif /home/ireese/testing/wellington_hydro/dem_orig_bigCatchment.tif
-
-gdal_translate -tr 5.0 -5.0 /home/ireese/testing/wellington_hydro/dem_orig_bigCatchment.tif /home/ireese/testing/wellington_hydro/dem_orig_bigCatchmen_5.tif
+#downsample for watershed creation
+gdal_translate -tr 50.0 -50.0 ${outRast}/rast.tif ${outRast}/rast_50.tif
