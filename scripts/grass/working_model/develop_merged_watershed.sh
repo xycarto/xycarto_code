@@ -40,11 +40,13 @@ mergeList=$(g.list type=vector pattern=*_overlay)
 
 inputList=$(echo $mergeList | sed "s/ /,/g")
 
+#merge watersheds into single vector file
 echo "running patch"
 #v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui]
 mergedWatershed=mergedWatershed
 v.patch input=$inputList,$initVectForMerge output=$mergedWatershed --overwrite
 
+#output merged watersheds to SHP
 echo "output merged watershed to file"
 outMergedWatershed=${outDir}/${mergedWatershed}.shp
 v.out.ogr input=$mergedWatershed output=$outMergedWatershed type=area format=ESRI_Shapefile --overwrite
@@ -54,7 +56,7 @@ echo "add id column and populate"
 ogrinfo $outMergedWatershed -sql "ALTER TABLE mergedWatershed ADD COLUMN id integer" 
 ogrinfo $outMergedWatershed -dialect SQLite -sql "UPDATE mergedWatershed set id = rowid+1"
 
-#clean up geometries
+#clean up geometries. Necessary to fix invalid geometry
 echo "running buffer"
 ogr2ogr -f "ESRI Shapefile" ${outDir}/mergedWatershed_buff.shp $outMergedWatershed -dialect sqlite -sql "select id, ST_buffer(Geometry,0) as geom from mergedWatershed" -overwrite
 
