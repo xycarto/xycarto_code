@@ -25,7 +25,7 @@ for i in $watershedList
 do
     fileName=${getBaseName}_${i}
     echo $fileName
-    #gdalwarp -of GTiff -dstnodata -9999 -cutline $watershed -csql "SELECT * FROM $watershedLayerName where id='$i'" -clip_to_cutline $inRast $outDir/{fileName}.tif
+    #gdalwarp -of GTiff -dstnodata -9999 -cutline $watershed -csql "SELECT id FROM $watershedLayerName where id='$i'" -clip_to_cutline $inRast $outDir/{fileName}.tif
 done
 
 

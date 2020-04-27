@@ -2,23 +2,21 @@
 
 #network by watershed
 
-inTiff=/home/ireese/testing/wellington_hydro/dem_orig_bigCatchment_5.tif
-inCarve=/home/ireese/testing/wellington_hydro/vectorRaw/riverSegmentsBuff.shp
-outDir=/home/ireese/testing/wellington_hydro/TEMP_forDelete
-outFinal=/home/ireese/testing/wellington_hydro/vectorRivers
+inTiffDir=$1
+inCarve=$2
+outTEMP=$3
+outFinal=$4
 
 memory=9000
 
-baseName=$(basename $inTiff | sed 's/\.tif//')
-
-idList=${inTiff}
+idList=${ls $inTiffDir}
 
 for i in $idList
 do
-    #TODO: fix
     echo $i
-    fileNum=$(basename $i | sed 's/\.tif//')
-    fileName=${baseName}${fileNum}
+    fileName=$(basename $i | sed 's/\.tif//')
+    #fileNum=$(basename $i | sed 's/\.tif//')
+    #fileName=${baseName}${fileNum}
 
     #import vector rivers
     echo "import carve vector"
@@ -55,7 +53,7 @@ do
     #r.fill.dir input=$outRiversRast output=$fillDEM direction=$directionDEM areas=$areasDEM --overwrite
 
     #r.out.gdal [-lcmtf] input=name output=name format=string [type=string] [createopt=string[,string,...]] [metaopt=string[,string,...]] [nodata=float] [overviews=integer] [--overwrite] [--help] [--verbose] [--quiet] [--ui]
-    areaOut=${outDir}/${fileName}.tif
+    areaOut=${outTEMP}/${fileName}.tif
     #r.out.gdal input=${areasDEM} output=${areaOut}
 
     #carve in rivers
@@ -65,9 +63,9 @@ do
     r.carve -n raster=$fillDEM vector=$outCarveVect output=$carve depth=2 width=10 --overwrite
 
     #create hydro DEM
-    echo "create hydro corrected dem"
+    #echo "create hydro corrected dem"
     #r.hydrodem [-afc] input=name [depression=name] [memory=integer] output=name mod=integer size=integer [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-    hydrodem=${fileName}_hydrodem
+    #hydrodem=${fileName}_hydrodem
     #r.hydrodem input=$outCarveVect memory=$memory output=$hydrodem --overwrite
 
     #create watersheds
@@ -103,12 +101,12 @@ do
 
 done
 
-#mergeList=$(g.list type=vector pattern=*_${searchTerm} separator=comma)
+mergeList=$(g.list type=vector pattern=*_${searchTerm} separator=comma)
 
 #inputList=$(echo $mergeList | sed "s/ /,/g")
 
 #v.patch [-nzeab] input=name[,name,...] output=name [bbox=name] [--overwrite] [--help] [--verbose] [--quiet] [--ui] 
-#v.patch -e input=$mergeList output=merged_vector --overwrite
+v.patch -e input=$mergeList output=merged_vector --overwrite
 
 outRiversMerged=${outFinal}/merged_rivers.gpkg
 #v.out.ogr input=merged_vector output=$outRiversMerged type=line format=GPKG --overwrite

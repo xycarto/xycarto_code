@@ -64,6 +64,8 @@ vectRivers=${inDir}/vector/riversProcessed
 
 scripts=${inDir}/scripts
 
+tempHold=${inDir}/TEMP
+
 ### download LINZ data
 
 raster DEM: https://data.linz.govt.nz/layer/53621-wellington-lidar-1m-dem-2013/
@@ -98,9 +100,13 @@ time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/develop_merged_wate
 
 time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/clip_raster_by_watershed.sh ${vectWatershed}/mergedWatershed_buff.shp ${outRast}/rast_50.tif ${rastWatersheds}
 
+### Develop carve vector
+
+TODO: add sql process to create carve vector file
+
 ### Run river creation process
 
-time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/scripts/network_by_watershed_noClip.sh
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scripts}/scripts/network_by_watershed_noClip.sh ${rastWatersheds} ${vectCarve} ${tempHold} ${vectRivers} 
 
 	
 
