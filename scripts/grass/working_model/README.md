@@ -18,10 +18,12 @@ Note: for large watersheds it may be necesary to slightly downsample the clipped
 ### Requirements
 
 GRASSGIS >= 7.4
-GDAL >= 2.3
-PostGIS
-PostgreSQL
 
+GDAL >= 2.3
+
+PostGIS
+
+PostgreSQL
 
 ### Set test environment
 inDir=
@@ -52,7 +54,9 @@ vectRivers=${inDir}/vector/riversProcessed
 raster DEM: https://data.linz.govt.nz/layer/53621-wellington-lidar-1m-dem-2013/
 
 coastline: https://data.linz.govt.nz/layer/51153-nz-coastlines-and-islands-polygons-topo-150k/
+
 riverPilot: https://data.linz.govt.nz/layer/103632-nz-river-name-lines-pilot/
+
 roads: https://data.linz.govt.nz/layer/50329-nz-road-centrelines-topo-150k/
 
 ### create grass environment
@@ -77,7 +81,7 @@ time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh ${scrpits}/develop_merged_wate
 
 ### clip original raster mosaic by watershed boundaries
 
-
+time grass ${inDir}/GRASS_ENV/PERMANENT --exec sh 
 
 ### Run river creation process
 
