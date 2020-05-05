@@ -9,7 +9,7 @@ raster=${outDir}/lds-tile-jm-GTiff/JM.tif
 rasterName=$( basename $raster | sed 's/.tif//g' )
 
 #prep your input vectors
-inputVector=/home/ireese/grass_test/JM_basinVectOut_2000000.shp
+inputVector=grass_test/JM_basinVectOut_2000000.shp
 inputVectorLayerName=$(basename $inputVector | sed 's/.shp//')
 
 #create your watersheds list
