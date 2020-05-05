@@ -13,9 +13,9 @@ inputVector=/home/ireese/grass_test/JM_basinVectOut_2000000.shp
 inputVectorLayerName=$(basename $inputVector | sed 's/.shp//')
 
 #create your watersheds list
-watershedList=$(ogrinfo -geom=NO -q -sql "SELECT cat FROM $inputVectorLayerName" $inputVector | grep 'cat (Integer)' | sed s/'cat (Integer) =//')
+watershedList=$(ogrinfo -geom=NO -q -sql "SELECT cat FROM $inputVectorLayerName" $inputVector | grep 'cat (Integer)' | sed s/'cat (Integer) = //')
 
 for i in $watershedList
 do
-    gdalwarp -of GTiff -dstnodata -9999 -cutline $inputVector -csql "SELECT cat FROM $inputVectorLayerName where cat='$i'" -crop_to_cutline $raster $outDirRast/{$rasterName}_${i}.tif
+    gdalwarp -of GTiff -dstnodata -9999 -cutline $inputVector -csql "SELECT cat FROM $inputVectorLayerName where cat='$i'" -crop_to_cutline $raster $outDirRast/${rasterName}_${i}.tif
 done
